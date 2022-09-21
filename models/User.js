@@ -15,7 +15,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    status: String,
+    status: {
+      type: String,
+      default: 'active',
+    },
   },
   {
     timestamps: true,

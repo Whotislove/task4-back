@@ -1,11 +1,20 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
+
 import mongoose from 'mongoose';
-import { registerValidation } from './validations/auth.js';
+import { registerValidation, loginValidation } from './auth.js';
+import {
+  login,
+  register,
+  getMe,
+  getAll,
+  deleteUser,
+  updateUser,
+} from './controllers/UserController.js';
+import checkAuth from './utils/checkAuth.js';
 
 mongoose
   .connect(
-    'mongodb+srv://whotislove:wwwwww@cluster0.wextkv2.mongodb.net/?retryWrites=true&w=majority',
+    'mongodb+srv://whotislove:wwwwww@cluster0.wextkv2.mongodb.net/task4?retryWrites=true&w=majority',
   )
   .then(() => {
     console.log('DB ok');
@@ -18,11 +27,17 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send(' 1112 Hello world');
-});
+app.post('/auth/login', loginValidation, login);
+//registerValidation проверяет нашу правильность
+app.post('/auth/register', registerValidation, register);
 
-app.post('/auth/register', registerValidation, (req, res) => {});
+app.get('/auth/me', checkAuth, getMe);
+
+app.get('/users', getAll);
+
+app.delete('/users/:id', checkAuth, deleteUser);
+
+app.patch('/users/:id', checkAuth, updateUser);
 
 app.listen(4444, (err) => {
   if (err) {
