@@ -1,5 +1,5 @@
 import express from 'express';
-
+import cors from 'cors';
 import mongoose from 'mongoose';
 import { registerValidation, loginValidation } from './auth.js';
 import {
@@ -26,6 +26,7 @@ mongoose
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.post('/auth/login', loginValidation, login);
 //registerValidation проверяет нашу правильность
