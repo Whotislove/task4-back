@@ -4,5 +4,5 @@ export const loginValidation = [body('email', 'Неверный формат п�
 export const registerValidation = [
   body('email', 'Неверный формат почты').isEmail(),
   body('password'),
-  body('fullName', 'Укажите имя').isLength({ min: 5 }),
+  body('fullName', 'Укажите имя'),
 ];

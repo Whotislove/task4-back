@@ -34,7 +34,7 @@ app.post('/auth/register', registerValidation, register);
 
 app.get('/auth/me', checkAuth, getMe);
 
-app.get('/users', getAll);
+app.get('/users', checkAuth, getAll);
 
 app.delete('/users/:id', checkAuth, deleteUser);
 

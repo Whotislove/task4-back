@@ -37,7 +37,7 @@ export const register = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: 'Не удалось зарегистрироваться',
+      message: 'Данный пользователь уже существует',
     });
   }
 };
@@ -68,7 +68,11 @@ export const login = async (req, res) => {
       },
     );
     const { passwordHash, ...userData } = user._doc;
-
+    if (userData.status === 'block') {
+      return res.status(400).json({
+        message: 'Вы заблокированы',
+      });
+    }
     res.json({
       ...userData,
       token,
@@ -101,7 +105,7 @@ export const getMe = async (req, res) => {
 
 export const getAll = async (req, res) => {
   try {
-    const user = await UserModel.find(req.userId);
+    const user = await UserModel.find(req);
     res.json(user);
   } catch (error) {
     console.log(error);
@@ -145,7 +149,7 @@ export const deleteUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
-    await UserModel.updateOne(
+    await UserModel.updateMany(
       {
         _id: userId,
       },
