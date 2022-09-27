@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite\" \"nodemon ./index.js\"",
-    "build": "vite build",
-    "start": "node ./index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
