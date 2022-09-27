@@ -13,9 +13,7 @@ import {
 import checkAuth from './utils/checkAuth.js';
 
 mongoose
-  .connect(
-    'mongodb+srv://whotislove:wwwwww@cluster0.wextkv2.mongodb.net/task4?retryWrites=true&w=majority',
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('DB ok');
   })
@@ -40,7 +38,7 @@ app.delete('/users/:id', checkAuth, deleteUser);
 
 app.patch('/users/:id', checkAuth, updateUser);
 
-app.listen(4444, (err) => {
+app.listen(process.env.PORT || 4444, (err) => {
   if (err) {
     return console.log(err);
   }
